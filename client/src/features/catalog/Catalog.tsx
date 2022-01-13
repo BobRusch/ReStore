@@ -16,9 +16,22 @@ export default function Catalog() {
       .finally(()=>setLoading(false))
   }, []);
 
-  if (loading) return <LoadingComponnent message='Loading Products...' />
-  
-  return (
-    <ProductList products={products} />
-  );
-}
+  if (loading) return <LoadingComponnent message='Loading Products...'/>
+
+  function addProduct() {
+    setProducts(prevState => [...prevState,
+      {
+        id: prevState.length + 101,
+        name: 'product' + (prevState.length + 1),
+        price: (prevState.length * 100 + 100),
+        brand: 'some brand',
+        description: 'some description',
+        pictureUrl: 'http://picsum.photos/200'
+      }
+    ]);
+  }
+
+    return (
+      <ProductList products={products} />
+    );
+  }

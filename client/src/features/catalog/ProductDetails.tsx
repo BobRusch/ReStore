@@ -1,26 +1,58 @@
-import { Divider, Grid, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import agent from "../../app/API/agent";
+import { useStoreContext } from "../../app/context/StoreContext";
 import Notfound from "../../app/errors/NotFound";
 import LoadingComponnent from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/products";
+import { currencyFormat } from "../../app/util/util";
 
 export default function ProductDetails() {
+  const { basket, setBasket, removeItem } = useStoreContext();
   const { id } = useParams <{id: string}> ();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const item = basket?.items.find(i => i.productId === product?.id);
 
-  
   useEffect(() => {
+    if (item) setQuantity(item.quantity);
     if (id) {
       agent.Catalog.details(parseInt(id))
         .then(response => setProduct(response))
         .catch(err => console.log(err))
         .finally(() => setLoading(false));
     }
-  }, [id]);
+  }, [id, item]);
+  
+  function handleInputChange(event: any) {
+    if (event.target.value >= 0) {
+      setQuantity(event.target.value);
+    }
+  }
+
+  function handleUpdateCart() {
+    setSubmitting(true);
+    if (!item || quantity > item.quantity) {
+      const updatedQuantity = item ? quantity - item.quantity : quantity;
+
+      agent.Basket.addItem(product?.id!, updatedQuantity)
+        .then(({value})=>setBasket(value))
+        .catch(error => console.log(error))
+        .finally(() => setSubmitting(false));
+    } else {
+      const updatedQuantity = item.quantity - quantity;
+
+      agent.Basket.removeItem(product?.id!, updatedQuantity)
+        .then(()=>removeItem(product?.id!, updatedQuantity))
+        .catch(error => console.log(error))
+        .finally(() => setSubmitting(false));
+    }
+  }
 
   if (loading) return <LoadingComponnent message='Loading Product Details...'/>
   if (!product) return <Notfound />
@@ -33,31 +65,59 @@ export default function ProductDetails() {
       <Grid item xs={6} >
         <Typography variant='h3'>{product.name}</Typography>
         <Divider sx={{mb: 2}}/>
-        <Typography variant='h3' color='secondary'>${(product.price/100).toFixed(2)}</Typography>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>{product.name}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Description</TableCell>
-              <TableCell>{product.description}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Type</TableCell>
-              <TableCell>{product.type}</TableCell>
-            </TableRow>
-             <TableRow>
-              <TableCell>Brand</TableCell>
-              <TableCell>{product.brand}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Quantity On Hand</TableCell>
-              <TableCell>{product.quantityInStock}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <Typography variant='h3' color='secondary'>{currencyFormat(product.price)}</Typography>
+        <TableContainer>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>{product.name}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Description</TableCell>
+                <TableCell>{product.description}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Type</TableCell>
+                <TableCell>{product.type}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Brand</TableCell>
+                <TableCell>{product.brand}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Quantity On Hand</TableCell>
+                <TableCell>{product.quantityInStock}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              variant='outlined'
+              type='number'
+              label='Quantity in Cart'
+              fullWidth
+              onChange={handleInputChange}
+              value={quantity}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <LoadingButton
+              disabled={!item && quantity ===0 || item?.quantity === quantity } //suspect logic!!! need to cleanup
+              loading={submitting}
+              sx={{ height: '55px' }}
+              color='primary'
+              size='large'
+              variant='contained'
+              fullWidth
+              onClick={handleUpdateCart}
+            >
+              {item ? 'Update Quantity' : 'Add to Cart' }
+            </LoadingButton>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
