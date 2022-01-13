@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import agent from "../../app/API/agent";
-
 import { Basket } from "../../app/models/basket";
 
 interface BasketState {
@@ -13,12 +12,12 @@ const initialState: BasketState = {
     status: 'idle'
 }
 
-export const addBasketItemAsync = createAsyncThunk<Basket, {productId: number, quantity: number}>(
+export const addBasketItemAsync = createAsyncThunk<Basket, {productId: number, quantity?: number}>(
     'basket/addBasketItemAsync',
-    async ({productId, quantity}, thunkAPI) => {
+    async ({productId, quantity = 1}, thunkAPI) => {
         try {
             return await agent.Basket.addItem(productId, quantity);
-        } catch (error:any) {
+        } catch (error: any) {
             return thunkAPI.rejectWithValue({error: error.data})
         }
     }
@@ -40,8 +39,8 @@ export const basketSlice = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-      setBasket: (state, action) => {
-          state.basket = action.payload
+        setBasket: (state, action) => {
+            state.basket = action.payload
         }
     },
     extraReducers: (builder => {
@@ -75,4 +74,4 @@ export const basketSlice = createSlice({
     })
 })
 
-export const {setBasket} = basketSlice.actions; 
+export const {setBasket} = basketSlice.actions;
