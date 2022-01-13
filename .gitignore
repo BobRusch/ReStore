@@ -457,3 +457,6 @@ $RECYCLE.BIN/
 .vscode/tasks.json
 API/store.db
 API/appsettings.json
+API/store.db-shm
+API/store.db-wal
+client/package-lock.json
