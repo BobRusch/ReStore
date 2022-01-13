@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
-    public static class DBInitializer
+    public static class DbInitializer
     {
         public static async Task Initialize(StoreContext context, UserManager<User> userManager)
         {
@@ -33,7 +31,7 @@ namespace API.Data
                 await userManager.AddToRolesAsync(admin, new[] {"Member", "Admin"});
             }
 
-            if(context.Products.Any()) return;
+            if (context.Products.Any()) return;
 
             var products = new List<Product>
             {

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    public class AccountController : BaseAPIController
+    public class AccountController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
@@ -86,6 +87,16 @@ namespace API.Controllers
                 Token = await _tokenService.GenerateToken(user),
                 Basket = userBasket?.MapBasketToDto()
             };
+        }
+
+        [Authorize]
+        [HttpGet("savedAddress")]
+        public async Task<ActionResult<UserAddress>> GetSavedAddress()
+        {
+            return await _userManager.Users
+                .Where(x => x.UserName == User.Identity.Name)
+                .Select(user => user.Address)
+                .FirstOrDefaultAsync();
         }
 
         private async Task<Basket> RetrieveBasket(string buyerId)

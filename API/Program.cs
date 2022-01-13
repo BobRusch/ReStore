@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API
 {
-  public class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -19,13 +19,17 @@ namespace API
             using var scope = host.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-            var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
-            try {
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            try
+            {
                 await context.Database.MigrateAsync();
-                await DBInitializer.Initialize(context, userManager);
-            } catch (Exception ex) {
-                logger.LogError(ex, "Problem Migrating Data!!");
+                await DbInitializer.Initialize(context, userManager);
             }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Problem migrating data");
+            }
+
             await host.RunAsync();
         }
 

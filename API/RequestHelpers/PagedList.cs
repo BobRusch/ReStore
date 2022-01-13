@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +8,7 @@ namespace API.RequestHelpers
 {
     public class PagedList<T> : List<T>
     {
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize )
+        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             MetaData = new MetaData
             {
@@ -27,7 +26,7 @@ namespace API.RequestHelpers
             int pageNumber, int pageSize)
         {
             var count = await query.CountAsync();
-            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await query.Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }
