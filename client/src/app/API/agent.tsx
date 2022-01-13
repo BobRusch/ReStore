@@ -2,15 +2,12 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 
-const sleep = () => new Promise(resolve => setTimeout(resolve, 300));
-
 axios.defaults.baseURL = 'http://localhost:5000/api/';
 axios.defaults.withCredentials = true;
 
 const responseBody = (response: AxiosResponse) => response.data;
 
 axios.interceptors.response.use(async response => {
-  await sleep();
   return response;
 }, (error: AxiosError) => {
   const { data, status } = error.response!;
@@ -46,7 +43,7 @@ axios.interceptors.response.use(async response => {
 
 const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
-  post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
+  post: (url: string, body: {}) => axios.post(url, body).then(responseBody=>responseBody.data.value),
   put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
   delete: (url: string, body: {}) => axios.delete(url).then(responseBody),
 }
