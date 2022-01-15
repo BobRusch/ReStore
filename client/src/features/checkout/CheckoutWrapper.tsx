@@ -7,12 +7,12 @@ import { useAppDispatch } from "../../app/store/configureStore";
 import { setBasket } from "../basket/basketSlice";
 import CheckoutPage from "./CheckoutPage";
 
-const stripePromise = loadStripe("pk_test_51KHtpDL8kXyYsVuwlfLoyXmtEP2UGtbAB0YzJB7v9zwJMc1cjxLhWhLLg02oAjdV5rrFEov78oKezfZxRAeEck5S00Ha32e57J")
+const stripePromise = loadStripe("pk_test_51KHtpDL8kXyYsVuwlfLoyXmtEP2UGtbAB0YzJB7v9zwJMc1cjxLhWhLLg02oAjdV5rrFEov78oKezfZxRAeEck5S00Ha32e57J");
 
 export default function CheckoutWrapper() {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
-dot
+
     useEffect(() => {
         agent.Payments.createPaymentIntent()
             .then(basket => dispatch(setBasket(basket)))
