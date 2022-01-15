@@ -12,7 +12,7 @@ const stripePromise = loadStripe("pk_test_51KHtpDL8kXyYsVuwlfLoyXmtEP2UGtbAB0YzJ
 export default function CheckoutWrapper() {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
-
+dot
     useEffect(() => {
         agent.Payments.createPaymentIntent()
             .then(basket => dispatch(setBasket(basket)))
