@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace API.Data.Migrations
 {
-    public partial class PostGresInitial : Migration
+    public partial class UsingCloudinary : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -101,7 +101,8 @@ namespace API.Data.Migrations
                     PictureUrl = table.Column<string>(type: "text", nullable: true),
                     Type = table.Column<string>(type: "text", nullable: true),
                     Brand = table.Column<string>(type: "text", nullable: true),
-                    QuantityInStock = table.Column<int>(type: "integer", nullable: false)
+                    QuantityInStock = table.Column<int>(type: "integer", nullable: false),
+                    PublicId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -294,8 +295,8 @@ namespace API.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "a6837ef4-11b5-42be-b943-3cc00e8143d3", "Member", "MEMBER" },
-                    { 2, "27733603-b1a8-4102-af55-6a77a39262a5", "Admin", "ADMIN" }
+                    { 1, "0b970bef-bb47-4ed9-8bc0-162f739f2b96", "Member", "MEMBER" },
+                    { 2, "b3247d9d-4b4f-4048-a899-b123df019dbb", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
