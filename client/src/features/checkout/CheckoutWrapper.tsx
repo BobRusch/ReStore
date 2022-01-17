@@ -7,6 +7,8 @@ import { useAppDispatch } from "../../app/store/configureStore";
 import { setBasket } from "../basket/basketSlice";
 import CheckoutPage from "./CheckoutPage";
 
+//need to kep this in sync with Cloudinary
+
 const stripePromise = loadStripe("pk_test_51KHtpDL8kXyYsVuwlfLoyXmtEP2UGtbAB0YzJB7v9zwJMc1cjxLhWhLLg02oAjdV5rrFEov78oKezfZxRAeEck5S00Ha32e57J")
 
 export default function CheckoutWrapper() {
