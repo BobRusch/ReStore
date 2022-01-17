@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20211003080020_PostGresInitial")]
-    partial class PostGresInitial
+    [Migration("20220117124153_UsingCloudinary")]
+    partial class UsingCloudinary
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -142,6 +142,9 @@ namespace API.Data.Migrations
                     b.Property<long>("Price")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
+
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("integer");
 
@@ -184,14 +187,14 @@ namespace API.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a6837ef4-11b5-42be-b943-3cc00e8143d3",
+                            ConcurrencyStamp = "0b970bef-bb47-4ed9-8bc0-162f739f2b96",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "27733603-b1a8-4102-af55-6a77a39262a5",
+                            ConcurrencyStamp = "b3247d9d-4b4f-4048-a899-b123df019dbb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
