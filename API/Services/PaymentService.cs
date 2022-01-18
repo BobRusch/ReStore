@@ -1,13 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Entities;
-using Microsoft.Extensions.Configuration;
 using Stripe;
 
 namespace API.Services
 {
-    public class PaymentService
+  public class PaymentService
     {
         private readonly IConfiguration _config;
         public PaymentService(IConfiguration config)

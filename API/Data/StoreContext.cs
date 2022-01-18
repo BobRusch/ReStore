@@ -1,12 +1,6 @@
-using API.Entities;
-using API.Entities.OrderAggregate;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
 namespace API.Data
 {
-    public class StoreContext : IdentityDbContext<User, Role, int>
+  public class StoreContext : IdentityDbContext<User, Entities.Role, int>
     {
         public StoreContext(DbContextOptions options) : base(options)
         {
@@ -26,10 +20,10 @@ namespace API.Data
                 .HasForeignKey<UserAddress>(a => a.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Role>()
+            builder.Entity<Entities.Role>()
                 .HasData(
-                    new Role { Id = 1, Name = "Member", NormalizedName = "MEMBER" },
-                    new Role { Id = 2, Name = "Admin", NormalizedName = "ADMIN" }
+                    new Entities.Role { Id = 1, Name = "Member", NormalizedName = "MEMBER" },
+                    new Entities.Role { Id = 2, Name = "Admin", NormalizedName = "ADMIN" }
                 );
         }
     }

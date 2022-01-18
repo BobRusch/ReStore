@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-
 namespace API.Services
 {
-    public class ImageService
+  public class ImageService
     {
         private readonly Cloudinary _cloudinary;
         public ImageService(IConfiguration config)
