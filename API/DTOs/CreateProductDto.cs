@@ -1,10 +1,6 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
-
 namespace API.DTOs
 {
-    public class CreateProductDto
+  public class CreateProductDto
     {
         [Required]
         public string Name { get; set; }

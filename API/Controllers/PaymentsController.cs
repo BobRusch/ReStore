@@ -1,22 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Data;
-using API.DTOs;
-using API.Entities.OrderAggregate;
-using API.Extensions;
-using API.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Stripe;
 
 namespace API.Controllers
 {
-    public class PaymentsController : BaseApiController
+  public class PaymentsController : BaseApiController
     {
         private readonly PaymentService _paymentService;
         private readonly StoreContext _context;

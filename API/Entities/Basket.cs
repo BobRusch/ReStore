@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace API.Entities
 {
-    public class Basket
+  public class Basket
     {
         public int Id { get; set; }
         public string BuyerId { get; set; }
